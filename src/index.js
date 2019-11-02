@@ -1,12 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react"
+import ReactDOM from "react-dom"
+import * as mobx from "mobx"
+import { Provider } from "mobx-react"
+import "styles/global.less"
+import stores from "store/index"
+import $http from "apis/index"
+import App from "views/App"
 
-ReactDOM.render(<App />, document.getElementById('root'));
+window.$http = $http
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+mobx.configure({ enforceActions: "always" })
+
+ReactDOM.render(
+  <div id="app-root">
+    <Provider {...stores} $http={$http}>
+      <App />
+    </Provider>
+  </div>,
+  document.getElementById("root")
+)
